@@ -23,7 +23,7 @@ namespace LSound
             float play_speed = 1.0f;
             bool on_loop = false;
             glm::vec3 position = {0.0f, 0.0f, 0.0f};
-            float fade_start_distance = 0.0f;
+            float fade_half_distance = 0.0f;
             float fade_end_distance = 1.0f;
 
             bool operator==(const Settings& _other) const;
@@ -50,6 +50,7 @@ namespace LSound
 
     public:
         void set_sound_data(const Sound_Data* _ptr);
+        void set_position(const glm::vec3& _position);
 
     public:
         bool is_playing() const;
@@ -76,7 +77,7 @@ namespace LSound
         ADD_FIELD(float, play_speed)
         ADD_FIELD(bool, on_loop)
         ADD_FIELD(glm::vec3, position)
-        ADD_FIELD(float, fade_start_distance)
+        ADD_FIELD(float, fade_half_distance)
         ADD_FIELD(float, fade_end_distance)
         FIELDS_END
 
@@ -90,7 +91,7 @@ namespace LSound
         float play_speed = 1.0f;
         bool on_loop = false;
         glm::vec3 position = {0.0f, 0.0f, 0.0f};
-        float fade_start_distance = 0.0f;
+        float fade_half_distance = 0.0f;
         float fade_end_distance = 1.0f;
 
     public:

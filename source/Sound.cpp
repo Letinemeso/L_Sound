@@ -12,7 +12,7 @@ bool Sound::Settings::operator==(const Settings& _other) const
         LEti::Math::floats_are_equal(play_speed, _other.play_speed) &&
         on_loop == _other.on_loop &&
         LEti::Math::vecs_are_equal(position, _other.position) &&
-        LEti::Math::floats_are_equal(fade_start_distance, _other.fade_start_distance) &&
+        LEti::Math::floats_are_equal(fade_half_distance, _other.fade_half_distance) &&
         LEti::Math::floats_are_equal(fade_end_distance, _other.fade_end_distance);
 }
 
@@ -64,6 +64,14 @@ void Sound::set_sound_data(const Sound_Data* _ptr)
     alSourcei(m_source, AL_BUFFER, m_buffer);
 }
 
+void Sound::set_position(const glm::vec3& _position)
+{
+    m_current_settings.position = _position;
+    m_modifiable_settings.position = _position;
+
+    alSourcefv(m_source, AL_POSITION, &_position[0]);
+}
+
 
 
 bool Sound::is_playing() const
@@ -86,8 +94,10 @@ void Sound::M_apply_settings()
     alSourcef(m_source, AL_PITCH, m_modifiable_settings.play_speed);
     alSourcei(m_source, AL_LOOPING, m_modifiable_settings.on_loop ? AL_TRUE : AL_FALSE);
     alSourcefv(m_source, AL_POSITION, &m_modifiable_settings.position[0]);
-    alSourcef(m_source, AL_REFERENCE_DISTANCE, m_modifiable_settings.fade_start_distance);
+    alSourcef(m_source, AL_REFERENCE_DISTANCE, m_modifiable_settings.fade_half_distance);
     alSourcef(m_source, AL_MAX_DISTANCE, m_modifiable_settings.fade_end_distance);
+    alSourcef(m_source, AL_ROLLOFF_FACTOR, 10.0f);
+    alSourcei(m_source, AL_SOURCE_RELATIVE, AL_FALSE);
 
     m_current_settings = m_modifiable_settings;
 }
@@ -139,7 +149,7 @@ BUILDER_STUB_INITIALIZATION_FUNC(Sound_Stub)
     settings.play_speed = play_speed;
     settings.on_loop = on_loop;
     settings.position = position;
-    settings.fade_start_distance = fade_start_distance;
+    settings.fade_half_distance = fade_half_distance;
     settings.fade_end_distance = fade_end_distance;
 
     product->set_settings(settings);

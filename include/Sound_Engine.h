@@ -3,6 +3,8 @@
 #include <al.h>
 #include <alc.h>
 
+#include <vec3.hpp>
+
 
 namespace LSound
 {
@@ -28,6 +30,9 @@ namespace LSound
     public:
         inline const ALCdevice* device() const { return m_device; }
         inline const ALCcontext* context() const { return m_context; }
+
+    public:
+        void set_listener_position(const glm::vec3& _position) const;
 
     };
 

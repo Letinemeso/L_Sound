@@ -29,3 +29,10 @@ Sound_Engine& Sound_Engine::get_instance()
     static Sound_Engine instance;
     return instance;
 }
+
+
+
+void Sound_Engine::set_listener_position(const glm::vec3& _position) const
+{
+    alListenerfv(AL_POSITION, &_position[0]);
+}
