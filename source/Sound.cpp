@@ -88,7 +88,7 @@ bool Sound::is_playing() const
 
 
 
-void Sound::M_apply_settings()
+void Sound::apply_settings()
 {
     L_ASSERT(m_sound_data);
 
@@ -119,14 +119,12 @@ void Sound::M_apply_settings()
     m_current_settings = m_modifiable_settings;
 }
 
-
-
 void Sound::play()
 {
     L_ASSERT(m_sound_data);
 
     if(m_current_settings != m_modifiable_settings)
-        M_apply_settings();
+        apply_settings();
 
     alSourcePlay(m_source);
 }
@@ -170,4 +168,5 @@ BUILDER_STUB_INITIALIZATION_FUNC(Sound_Stub)
     settings.fade_end_distance = fade_end_distance;
 
     product->set_settings(settings);
+    product->apply_settings();
 }

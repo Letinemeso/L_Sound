@@ -54,10 +54,8 @@ namespace LSound
     public:
         bool is_playing() const;
 
-    private:
-        void M_apply_settings();
-
     public:
+        void apply_settings();
         void play();
         void pause();
         void stop();
