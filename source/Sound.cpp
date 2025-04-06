@@ -1,5 +1,7 @@
 #include <Sound.h>
 
+#include <al.h>
+
 #include <Math_Stuff.h>
 
 using namespace LSound;
@@ -93,11 +95,26 @@ void Sound::M_apply_settings()
     alSourcef(m_source, AL_GAIN, m_modifiable_settings.volume);
     alSourcef(m_source, AL_PITCH, m_modifiable_settings.play_speed);
     alSourcei(m_source, AL_LOOPING, m_modifiable_settings.on_loop ? AL_TRUE : AL_FALSE);
-    alSourcefv(m_source, AL_POSITION, &m_modifiable_settings.position[0]);
-    alSourcef(m_source, AL_REFERENCE_DISTANCE, m_modifiable_settings.fade_half_distance);
-    alSourcef(m_source, AL_MAX_DISTANCE, m_modifiable_settings.fade_end_distance);
-    alSourcef(m_source, AL_ROLLOFF_FACTOR, 10.0f);
-    alSourcei(m_source, AL_SOURCE_RELATIVE, AL_FALSE);
+
+    if(m_modifiable_settings.fade_half_distance >= 0.0f && m_modifiable_settings.fade_end_distance >= 0.0f)
+    {
+        L_ASSERT(!m_sound_data->is_stereo());       //  only sounds encoded as mono can be used as spatial
+
+        alSourcefv(m_source, AL_POSITION, &m_modifiable_settings.position[0]);
+        alSourcef(m_source, AL_REFERENCE_DISTANCE, m_modifiable_settings.fade_half_distance);
+        alSourcef(m_source, AL_MAX_DISTANCE, m_modifiable_settings.fade_end_distance);
+        alSourcef(m_source, AL_ROLLOFF_FACTOR, 10.0f);
+        alSourcei(m_source, AL_SOURCE_RELATIVE, AL_FALSE);
+        alSourcei(m_source, AL_DISTANCE_MODEL, AL_INVERSE_DISTANCE);
+    }
+    else
+    {
+        glm::vec3 central_position = {0.0f, 0.0f, 0.0f};
+
+        alSourcefv(m_source, AL_POSITION, &central_position[0]);
+        alSourcei(m_source, AL_SOURCE_RELATIVE, AL_TRUE);
+        alSourcei(m_source, AL_DISTANCE_MODEL, AL_NONE);
+    }
 
     m_current_settings = m_modifiable_settings;
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <al.h>
 #include <vec3.hpp>
 
 #include <Resources_Manager.h>
@@ -19,12 +18,12 @@ namespace LSound
     public:
         struct Settings
         {
-            float volume = -1.0f;
+            float volume = 1.0f;
             float play_speed = 1.0f;
             bool on_loop = false;
             glm::vec3 position = {0.0f, 0.0f, 0.0f};
-            float fade_half_distance = 0.0f;
-            float fade_end_distance = 1.0f;
+            float fade_half_distance = -1.0f;
+            float fade_end_distance = -1.0f;
 
             bool operator==(const Settings& _other) const;
             bool operator!=(const Settings& _other) const;
@@ -33,8 +32,8 @@ namespace LSound
     private:
         const Sound_Data* m_sound_data = nullptr;
 
-        ALuint m_buffer = 0;
-        ALuint m_source = 0;
+        unsigned int m_buffer = 0;
+        unsigned int m_source = 0;
 
         Settings m_current_settings;
         Settings m_modifiable_settings;
@@ -91,8 +90,8 @@ namespace LSound
         float play_speed = 1.0f;
         bool on_loop = false;
         glm::vec3 position = {0.0f, 0.0f, 0.0f};
-        float fade_half_distance = 0.0f;
-        float fade_end_distance = 1.0f;
+        float fade_half_distance = -1.0f;
+        float fade_end_distance = -1.0f;
 
     public:
         INIT_BUILDER_STUB(Sound);

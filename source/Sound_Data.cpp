@@ -20,6 +20,15 @@ Sound_Data::~Sound_Data()
 
 
 
+bool Sound_Data::is_stereo() const
+{
+    L_ASSERT(m_raw_sound_data.data);
+
+    return m_raw_sound_data.format == AL_FORMAT_STEREO8 || m_raw_sound_data.format == AL_FORMAT_STEREO16;
+}
+
+
+
 
 
 Raw_Sound_Data load_wav(const std::string& filename)    //  this function is written by ChatGPT

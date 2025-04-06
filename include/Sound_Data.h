@@ -41,6 +41,8 @@ namespace LSound
         inline void set_raw_data(const Raw_Sound_Data& _data) { m_raw_sound_data = _data; }
         inline const Raw_Sound_Data& raw_data() const { return m_raw_sound_data; }
 
+        bool is_stereo() const;
+
     };
 
 
