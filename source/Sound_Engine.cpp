@@ -14,6 +14,7 @@ Sound_Engine::Sound_Engine()
     L_ASSERT(m_context);
 
     alcMakeContextCurrent(m_context);
+    alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 }
 
 Sound_Engine::~Sound_Engine()

@@ -103,9 +103,8 @@ void Sound::apply_settings()
         alSourcefv(m_source, AL_POSITION, &m_modifiable_settings.position[0]);
         alSourcef(m_source, AL_REFERENCE_DISTANCE, m_modifiable_settings.fade_half_distance);
         alSourcef(m_source, AL_MAX_DISTANCE, m_modifiable_settings.fade_end_distance);
-        alSourcef(m_source, AL_ROLLOFF_FACTOR, 10.0f);
+        alSourcef(m_source, AL_ROLLOFF_FACTOR, 1.0f);
         alSourcei(m_source, AL_SOURCE_RELATIVE, AL_FALSE);
-        alSourcei(m_source, AL_DISTANCE_MODEL, AL_INVERSE_DISTANCE);
     }
     else
     {
