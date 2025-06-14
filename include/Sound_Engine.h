@@ -16,6 +16,9 @@ namespace LSound
         ALCcontext* m_context = nullptr;
 
     private:
+        glm::vec3 m_listener_position = { 0.0f, 0.0f, 0.0f };
+
+    private:
         Sound_Engine();
 
         Sound_Engine(const Sound_Engine&) = delete;
@@ -31,8 +34,10 @@ namespace LSound
         inline const ALCdevice* device() const { return m_device; }
         inline const ALCcontext* context() const { return m_context; }
 
+        inline const glm::vec3& listener_position() const { return m_listener_position; }
+
     public:
-        void set_listener_position(const glm::vec3& _position) const;
+        void set_listener_position(const glm::vec3& _position);
 
     };
 

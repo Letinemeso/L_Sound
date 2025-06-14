@@ -33,7 +33,8 @@ Sound_Engine& Sound_Engine::get_instance()
 
 
 
-void Sound_Engine::set_listener_position(const glm::vec3& _position) const
+void Sound_Engine::set_listener_position(const glm::vec3& _position)
 {
+    m_listener_position = _position;
     alListenerfv(AL_POSITION, &_position[0]);
 }
