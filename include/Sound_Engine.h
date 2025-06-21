@@ -39,6 +39,10 @@ namespace LSound
     public:
         void set_listener_position(const glm::vec3& _position);
 
+        void stop_all_sounds();
+        void pause_all_sounds();
+        void continue_all_sounds();
+
     };
 
 }

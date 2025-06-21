@@ -2,9 +2,12 @@
 
 #include <vec3.hpp>
 
+#include <Stuff/Message_Translator.h>
+
 #include <Resources_Manager.h>
 
 #include <Sound_Data.h>
+#include <Sound_Messages.h>
 
 
 namespace LSound
@@ -38,6 +41,10 @@ namespace LSound
         Settings m_current_settings;
         Settings m_modifiable_settings;
 
+        LST::Message_Translator::Handle<Message__Stop_All_Sounds> m_stop_sounds_handle;
+        LST::Message_Translator::Handle<Message__Pause_All_Sounds> m_pause_sounds_handle;
+        LST::Message_Translator::Handle<Message__Continue_All_Sounds> m_continue_sounds_handle;
+
     public:
         Sound();
         ~Sound();
@@ -53,6 +60,8 @@ namespace LSound
 
     public:
         bool is_playing() const;
+        bool is_paused() const;
+        bool is_stopped() const;
 
     public:
         void apply_settings();

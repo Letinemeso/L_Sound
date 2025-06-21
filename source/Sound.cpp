@@ -29,7 +29,20 @@ bool Sound::Settings::operator!=(const Settings& _other) const
 
 Sound::Sound()
 {
-
+    LST::Message_Translator& mt = LST::Message_Translator::instance();
+    m_stop_sounds_handle = mt.subscribe<Message__Stop_All_Sounds>([this](Message__Stop_All_Sounds& _msg)
+    {
+        stop();
+    });
+    m_pause_sounds_handle = mt.subscribe<Message__Pause_All_Sounds>([this](Message__Pause_All_Sounds& _msg)
+    {
+        pause();
+    });
+    m_continue_sounds_handle = mt.subscribe<Message__Continue_All_Sounds>([this](Message__Continue_All_Sounds& _msg)
+    {
+        if(is_paused())
+            play();
+    });
 }
 
 Sound::~Sound()
@@ -42,6 +55,11 @@ Sound::~Sound()
 
     alDeleteSources(1, &m_source);
     alDeleteBuffers(1, &m_buffer);
+
+    LST::Message_Translator& mt = LST::Message_Translator::instance();
+    mt.unsubscribe(m_stop_sounds_handle);
+    mt.unsubscribe(m_pause_sounds_handle);
+    mt.unsubscribe(m_continue_sounds_handle);
 }
 
 
@@ -84,6 +102,26 @@ bool Sound::is_playing() const
     alGetSourcei(m_source, AL_SOURCE_STATE, &sourceState);
 
     return sourceState == AL_PLAYING;
+}
+
+bool Sound::is_paused() const
+{
+    L_ASSERT(m_sound_data);
+
+    ALint sourceState;
+    alGetSourcei(m_source, AL_SOURCE_STATE, &sourceState);
+
+    return sourceState == AL_PAUSED;
+}
+
+bool Sound::is_stopped() const
+{
+    L_ASSERT(m_sound_data);
+
+    ALint sourceState;
+    alGetSourcei(m_source, AL_SOURCE_STATE, &sourceState);
+
+    return sourceState == AL_STOPPED;
 }
 
 
