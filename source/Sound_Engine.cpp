@@ -33,18 +33,20 @@ Sound_Engine::~Sound_Engine()
 
 
 
-Sound_Engine& Sound_Engine::get_instance()
-{
-    static Sound_Engine instance;
-    return instance;
-}
-
-
-
 void Sound_Engine::set_listener_position(const glm::vec3& _position)
 {
     m_listener_position = _position;
     alListenerfv(AL_POSITION, &_position[0]);
+}
+
+void Sound_Engine::set_listener_orientation(const glm::vec3& _forward, const glm::vec3& _top)
+{
+    m_listener_look_forward = _forward;
+    m_listener_look_top = _top;
+
+    float data[6] = { _forward[0], _forward[1], _forward[2], _top[0], _top[1], _top[2] };
+
+    alListenerfv(AL_ORIENTATION, data);
 }
 
 

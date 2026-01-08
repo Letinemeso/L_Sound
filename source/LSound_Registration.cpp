@@ -12,7 +12,7 @@ void LSound::register_types(LV::Object_Constructor& _object_constructor,
 {
     L_ASSERT(_resources_manager_getter);
 
-    Sound_Engine::get_instance();   //  initialization
+    Sound_Engine::instance();   //  initialization
 
     _object_constructor.register_type<LSound::Sound_Data_Stub>();
 
