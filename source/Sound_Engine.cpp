@@ -4,19 +4,19 @@
 #include <Stuff/Message_Translator.h>
 
 #include <Sound_Messages.h>
+#include <Devices/Output_Device.h>
 
 using namespace LSound;
 
 
 Sound_Engine::Sound_Engine()
 {
-    m_device = alcOpenDevice(nullptr);
-    L_ASSERT(m_device);
+    m_output_device = new Output_Device;
 
-    m_context = alcCreateContext(m_device, nullptr);
+    m_context = alcCreateContext(m_output_device->device(), nullptr);
     L_ASSERT(m_context);
-
     alcMakeContextCurrent(m_context);
+
     alDistanceModel(AL_INVERSE_DISTANCE_CLAMPED);
 
     LST::Message_Translator& mt = LST::Message_Translator::instance();
@@ -28,10 +28,16 @@ Sound_Engine::Sound_Engine()
 Sound_Engine::~Sound_Engine()
 {
     alcDestroyContext(m_context);
-    alcCloseDevice(m_device);
+    delete m_output_device;
 }
 
 
+
+void Sound_Engine::set_listener_volume_multiplier(float _value)
+{
+    m_listener_volume_multiplier = _value;
+    alListenerf(AL_GAIN, _value);
+}
 
 void Sound_Engine::set_listener_position(const glm::vec3& _position)
 {

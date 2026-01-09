@@ -22,19 +22,14 @@ namespace LSound
         INIT_VARIABLE(LSound::Sound_Data, LV::Variable_Base)
 
     private:
-        friend class Sound_Data_Stub;
-
-    private:
         Raw_Sound_Data m_raw_sound_data;
 
     public:
         Sound_Data(const Sound_Data&) = delete;
         Sound_Data(Sound_Data&&) = delete;
 
-    protected:
-        Sound_Data();
-
     public:
+        Sound_Data();
         ~Sound_Data();
 
     public:

@@ -7,6 +7,52 @@
 
 using namespace LSound;
 
+namespace LSound
+{
+
+    Raw_Sound_Data load_wav(const std::string& _filename)
+    {
+        std::ifstream file(_filename, std::ios::binary);
+        L_ASSERT(file.is_open());
+
+        char type[4];
+        file.read(type, 4);
+        L_ASSERT(strncmp(type, "RIFF", 4) == 0);
+
+        Raw_Sound_Data result;
+
+        file.seekg(22);
+        short channels;
+        file.read(reinterpret_cast<char*>(&channels), sizeof(short));
+
+        file.seekg(24);
+        file.read(reinterpret_cast<char*>(&result.frequency), sizeof(int));
+
+        file.seekg(34);
+        short bitsPerSample;
+        file.read(reinterpret_cast<char*>(&bitsPerSample), sizeof(short));
+
+        if (channels == 1) {
+            result.format = (bitsPerSample == 8) ? AL_FORMAT_MONO8 : AL_FORMAT_MONO16;
+        } else {
+            result.format = (bitsPerSample == 8) ? AL_FORMAT_STEREO8 : AL_FORMAT_STEREO16;
+        }
+
+        file.seekg(40);
+        int dataSize;
+        file.read(reinterpret_cast<char*>(&dataSize), sizeof(int));
+
+        result.size = dataSize;
+        result.data = new char[dataSize];
+        file.read(result.data, dataSize);
+
+        file.close();
+
+        return result;
+    }
+
+}
+
 
 Sound_Data::Sound_Data()
 {
@@ -15,7 +61,7 @@ Sound_Data::Sound_Data()
 
 Sound_Data::~Sound_Data()
 {
-    delete m_raw_sound_data.data;
+    delete[] m_raw_sound_data.data;
 }
 
 
@@ -28,49 +74,6 @@ bool Sound_Data::is_stereo() const
 }
 
 
-
-
-
-Raw_Sound_Data load_wav(const std::string& filename)    //  this function is written by ChatGPT
-{
-    std::ifstream file(filename, std::ios::binary);
-    L_ASSERT(file.is_open());
-
-    char type[4];
-    file.read(type, 4);
-    L_ASSERT(strncmp(type, "RIFF", 4) == 0);
-
-    Raw_Sound_Data result;
-
-    file.seekg(22);
-    short channels;
-    file.read(reinterpret_cast<char*>(&channels), sizeof(short));
-
-    file.seekg(24);
-    file.read(reinterpret_cast<char*>(&result.frequency), sizeof(int));
-
-    file.seekg(34);
-    short bitsPerSample;
-    file.read(reinterpret_cast<char*>(&bitsPerSample), sizeof(short));
-
-    if (channels == 1) {
-        result.format = (bitsPerSample == 8) ? AL_FORMAT_MONO8 : AL_FORMAT_MONO16;
-    } else {
-        result.format = (bitsPerSample == 8) ? AL_FORMAT_STEREO8 : AL_FORMAT_STEREO16;
-    }
-
-    file.seekg(40);
-    int dataSize;
-    file.read(reinterpret_cast<char*>(&dataSize), sizeof(int));
-
-    result.size = dataSize;
-    result.data = new char[dataSize];
-    file.read(result.data, dataSize);
-
-    file.close();
-
-    return result;
-}
 
 
 
