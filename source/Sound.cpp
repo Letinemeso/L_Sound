@@ -193,7 +193,7 @@ BUILDER_STUB_INITIALIZATION_FUNC(Sound_Stub)
 
     L_ASSERT(sound_data_name.size() > 0);
 
-    const Sound_Data* sound_data = resources_manager->get_resource<Sound_Data>(sound_data_name);
+    const Sound_Data* sound_data = resources_manager->get_variable<Sound_Data>(sound_data_name);
     product->set_sound_data(sound_data);
 
     Sound::Settings settings;

@@ -4,7 +4,7 @@
 
 #include <Stuff/Message_Translator.h>
 
-#include <Resources_Manager.h>
+#include <Variable_Loader.h>
 
 #include <Sound_Data.h>
 #include <Sound_Messages.h>
@@ -88,7 +88,7 @@ namespace LSound
         FIELDS_END
 
     public:
-        const LEti::Resources_Manager* resources_manager = nullptr;
+        const LV::Variable_Loader* resources_manager = nullptr;
 
     public:
         std::string sound_data_name;
