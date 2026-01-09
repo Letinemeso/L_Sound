@@ -2,7 +2,7 @@
 
 #include <al.h>
 
-#include <Math_Stuff.h>
+#include <Stuff/Math_Stuff.h>
 
 using namespace LSound;
 
@@ -10,12 +10,12 @@ using namespace LSound;
 bool Sound::Settings::operator==(const Settings& _other) const
 {
     return
-        LEti::Math::floats_are_equal(volume, _other.volume) &&
-        LEti::Math::floats_are_equal(play_speed, _other.play_speed) &&
+        LST::Math::floats_are_equal(volume, _other.volume) &&
+        LST::Math::floats_are_equal(play_speed, _other.play_speed) &&
         on_loop == _other.on_loop &&
-        LEti::Math::vecs_are_equal(position, _other.position) &&
-        LEti::Math::floats_are_equal(fade_half_distance, _other.fade_half_distance) &&
-        LEti::Math::floats_are_equal(fade_end_distance, _other.fade_end_distance);
+        LST::Math::vecs_are_equal(position, _other.position) &&
+        LST::Math::floats_are_equal(fade_half_distance, _other.fade_half_distance) &&
+        LST::Math::floats_are_equal(fade_end_distance, _other.fade_end_distance);
 }
 
 bool Sound::Settings::operator!=(const Settings& _other) const
