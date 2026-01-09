@@ -19,5 +19,4 @@ target_include_directories(L_Sound PUBLIC
                             "${PROJECT_SOURCE_DIR}/../L_Utility/include"
                             "${PROJECT_SOURCE_DIR}/../L_Utility/glm"
                             "${PROJECT_SOURCE_DIR}/../L_Variable/include"
-                            "${PROJECT_SOURCE_DIR}/../LEti_Engine/include"
 )
