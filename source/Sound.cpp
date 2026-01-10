@@ -29,6 +29,9 @@ bool Sound::Settings::operator!=(const Settings& _other) const
 
 Sound::Sound()
 {
+    alGenBuffers(1, &m_buffer);
+    alGenSources(1, &m_source);
+
     LST::Message_Translator& mt = LST::Message_Translator::instance();
     m_stop_sounds_handle = mt.subscribe<Message__Stop_All_Sounds>([this](Message__Stop_All_Sounds& _msg)
     {
@@ -47,9 +50,6 @@ Sound::Sound()
 
 Sound::~Sound()
 {
-    if(!m_sound_data)
-        return;
-
     if(is_playing())
         stop();
 
@@ -66,21 +66,16 @@ Sound::~Sound()
 
 void Sound::set_sound_data(const Sound_Data* _ptr)
 {
-    if(m_sound_data)
-    {
-        alDeleteSources(1, &m_source);
-        alDeleteBuffers(1, &m_buffer);
-    }
+    if(m_sound_data && is_playing())
+        stop();
 
     m_sound_data = _ptr;
 
     if(!m_sound_data)
         return;
 
-    alGenBuffers(1, &m_buffer);
+    alSourcei(m_source, AL_BUFFER, 0);
     alBufferData(m_buffer, m_sound_data->raw_data().format, m_sound_data->raw_data().data, m_sound_data->raw_data().size, m_sound_data->raw_data().frequency);
-
-    alGenSources(1, &m_source);
     alSourcei(m_source, AL_BUFFER, m_buffer);
 }
 
