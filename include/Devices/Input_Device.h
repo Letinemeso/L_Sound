@@ -51,6 +51,7 @@ namespace LSound
 
     public:
         inline const Input_Device_Settings& settings() const { return m_settings; }
+        inline bool is_capturing() const { return m_capture_in_process; }
 
     private:
         unsigned int M_bytes_per_sample() const;
