@@ -54,6 +54,8 @@ namespace LSound
         inline const Settings& current_settings() const { return m_current_settings; }
         inline void set_settings(const Settings& _value) { m_modifiable_settings = _value; }
 
+        inline const Sound_Data* sound_data() const { return m_sound_data; }
+
     public:
         void set_sound_data(const Sound_Data* _ptr);
         void set_position(const glm::vec3& _position);
