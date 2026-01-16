@@ -35,6 +35,8 @@ Sound_Engine::~Sound_Engine()
 
 void Sound_Engine::set_listener_volume_multiplier(float _value)
 {
+    L_ASSERT(_value >= 0.0f);
+
     m_listener_volume_multiplier = _value;
     alListenerf(AL_GAIN, _value);
 }
